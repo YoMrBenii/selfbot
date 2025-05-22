@@ -40,4 +40,4 @@ async def msg_loop():
     channel = client.get_channel(1198228961000423486)
     await channel.send("woooo")
 
-client.run('TOKEN')
+client.run(TOKEN)
