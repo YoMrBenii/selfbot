@@ -5,6 +5,7 @@ import time
 import sys
 import os
 import string
+import random
 
 TOKEN = os.getenv("a")
 client = discord.Client()
