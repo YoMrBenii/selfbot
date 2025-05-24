@@ -4,6 +4,7 @@ from discord.ext import tasks
 import time
 import sys
 import os
+import string
 
 TOKEN = os.getenv("a")
 client = discord.Client()
