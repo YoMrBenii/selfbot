@@ -32,10 +32,6 @@ async def on_message(message):
     if message.author.id == your_id:
         cooldown_until = now + 300
 
-    if "<@1118218807694065684>" in message.content:
-        if now >= cooldown_until:
-            await message.channel.send("MrBenii is inactive, ask рheо if you have problems")
-
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
