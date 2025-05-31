@@ -2,7 +2,6 @@ import discord
 import asyncio
 from discord.ext import tasks
 import time
-import sys
 import os
 import string
 import random
