@@ -12,6 +12,7 @@ client = discord.Client()
 cooldown_until = 0
 your_id = 1118218807694065684
 
+# Status message list for rotation
 status_messages = [
     "I love you",
     "I love animals",
@@ -54,8 +55,9 @@ async def msg_loop():
 @tasks.loop(seconds=30)
 async def status_loop():
     global status_index
-    status = status_messages[status_index % len(status_messages)]
-    await client.change_presence(activity=discord.Game(name=status))
+    # Rotate through custom status messages
+    custom_status = discord.CustomActivity(name=status_messages[status_index % len(status_messages)])
+    await client.change_presence(activity=custom_status)
     status_index += 1
 
 client.run(TOKEN)
