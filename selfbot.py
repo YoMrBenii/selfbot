@@ -49,13 +49,25 @@ async def on_message(message):
 @tasks.loop(seconds=30)
 async def msg_loop():
     channel = client.get_channel(1198228961000423486)
-    random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-    await channel.send(random_string)
+
+    while True:
+        try:
+            random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+            await channel.send(random_string)
+            break  # success, exit retry loop
+        except discord.errors.DiscordServerError as e:
+            print(f"[msg_loop] DiscordServerError: {e} — Retrying in 5s...")
+            await asyncio.sleep(5)
+        except discord.HTTPException as e:
+            print(f"[msg_loop] HTTPException: {e} — Retrying in 5s...")
+            await asyncio.sleep(5)
+        except Exception as e:
+            print(f"[msg_loop] Unexpected error: {e} — Retrying in 5s...")
+            await asyncio.sleep(5)
 
 @tasks.loop(seconds=30)
 async def status_loop():
     global status_index
-    # Rotate through custom status messages
     custom_status = discord.CustomActivity(name=status_messages[status_index % len(status_messages)])
     await client.change_presence(activity=custom_status)
     status_index += 1
