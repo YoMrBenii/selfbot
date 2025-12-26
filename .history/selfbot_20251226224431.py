@@ -59,7 +59,6 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
     if message.content.startswith("$shutdown") and message.author.id == 1118218807694065684:
-        await message.channel.send("Shutting down")
         await client.close()
 
 

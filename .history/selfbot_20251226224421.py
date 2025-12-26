@@ -59,7 +59,6 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
     if message.content.startswith("$shutdown") and message.author.id == 1118218807694065684:
-        await message.channel.send("Shutting down")
         await client.close()
 
 
@@ -89,7 +88,7 @@ async def status_loop():
     await client.change_presence(activity=custom_status)
     status_index += 1
 
-@tasks.loop(seconds=5)
+@tasks.loop(seconds=60)
 async def bump():
     print("--- Attempting Force Sync Bump ---")
     channel = client.get_channel(1108669775099461633)
