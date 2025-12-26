@@ -91,14 +91,11 @@ async def bump():
     try:
         command = None
         async for cmd in channel.slash_commands(query="messages"):
-            print("Step 1 work")
             if cmd.application_id == 720351927581278219 and cmd.name == "messages":
-                print("Step 2 work")
                 command = cmd
                 print(command)
                 break
         if command:
-            print("step 3 work")
             await command()
     except Exception as e:
         print(e)
