@@ -1,12 +1,3 @@
-import sys
-from types import ModuleType
-
-
-if 'audioop' not in sys.modules:
-    dummy_audioop = ModuleType('audioop')
-    dummy_audioop.tostereo = lambda *args: None 
-    sys.modules['audioop'] = dummy_audioop
-
 import discord
 import asyncio
 from discord.ext import tasks
@@ -21,7 +12,7 @@ client = discord.Client()
 cooldown_until = 0
 your_id = 1118218807694065684
 
-
+# Status message list for rotation
 status_messages = [
     "I love you",
     "I love animals",
@@ -33,10 +24,9 @@ status_index = 0
 
 @client.event
 async def on_ready():
-    print(f'Logged in as {client.user}')
+    print(f'We have logged in as {client.user}')
     msg_loop.start()
     status_loop.start()
-    bump.start()
 
 @client.event
 async def on_message(message):
@@ -64,7 +54,7 @@ async def msg_loop():
         try:
             random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
             await channel.send(random_string)
-            break
+            break  # success, exit retry loop
         except discord.errors.DiscordServerError as e:
             print(f"[msg_loop] DiscordServerError: {e} — Retrying in 5s...")
             await asyncio.sleep(5)
@@ -81,21 +71,5 @@ async def status_loop():
     custom_status = discord.CustomActivity(name=status_messages[status_index % len(status_messages)])
     await client.change_presence(activity=custom_status)
     status_index += 1
-
-@tasks.loop(seconds=60)
-async def bump():
-    channel = client.get_channel(1108669775099461633)
-    if not channel:
-        return
-    try:
-        commands_list = await channel.slash_commands(query="messages")
-        command = next(
-            (c for c in commands_list if c.application_id == 720351927581278219 and c.name == "messages"), 
-            None
-            )
-        if command:
-            await command()
-    except Exception as e:
-        print(e)
 
 client.run(TOKEN)

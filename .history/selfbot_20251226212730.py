@@ -96,6 +96,6 @@ async def bump():
         if command:
             await command()
     except Exception as e:
-        print(e)
+        print(Exception)
 
 client.run(TOKEN)
