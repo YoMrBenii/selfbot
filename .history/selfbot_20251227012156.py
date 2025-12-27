@@ -1,8 +1,6 @@
 import sys
 from types import ModuleType
 
-from mongo import getuservar
-
 
 if 'audioop' not in sys.modules:
     dummy_audioop = ModuleType('audioop')
@@ -21,6 +19,7 @@ TOKEN = os.getenv("a")
 client = discord.Client()
 
 cooldown_until = 0
+your_id = 1118218807694065684
 
 
 status_messages = [
@@ -51,7 +50,7 @@ async def on_message(message):
 
     now = time.time()
 
-    if message.author.id == 1118218807694065684:
+    if message.author.id == your_id:
         cooldown_until = now + 300
 
     if message.content.startswith('$treps'):
@@ -62,12 +61,6 @@ async def on_message(message):
     if message.content.startswith("$shutdown") and message.author.id == 1118218807694065684:
         await message.channel.send("Shutting down")
         await client.close()
-    elif message.content.startswith("$shutdown") and message.author.id != 1118218807694065684:
-        await message.channel.send("No perms.")
-
-    if message.content.startswith("$wallet"):
-        a = getuservar("usd", message.author.id)
-        await message.channel.send(f"{message.author.mention} has {a} usd.")
 
 
 @tasks.loop(seconds=30)

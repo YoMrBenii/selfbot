@@ -5,11 +5,11 @@ import discord
 import asyncio
 
 uri = os.getenv("mongodb")
-dbclient = MongoClient(uri, server_api=ServerApi('1'))
-db = dbclient["pvp"]
+client = MongoClient(uri, server_api=ServerApi('1'))
+db = client["pvp"]
 
 try:
-    dbclient.admin.command("ping")
+    client.admin.command("ping")
     print("[Mongo] ping OK")
 except Exception as e:
     print(f"[Mongo] ping FAILED: {e!r}")
